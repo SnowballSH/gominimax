@@ -80,6 +80,7 @@ func (n *Node) Minimax(mode int8, depth int, alpha, beta float64) {
 	n.Value = &lowest
 }
 
+// Use this method for general minimax. This method is a shortcut for n.Minimax(0, depth, math.Inf(-1), math.Inf(1)).
 func (n *Node) FriendlyMinimax(depth int) {
 	n.Minimax(0, depth, math.Inf(-1), math.Inf(1))
 }

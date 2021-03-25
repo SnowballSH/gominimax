@@ -37,8 +37,8 @@ func CreateRootNode(value []float64) *Node {
 
 // Minimax calculates minimax for the node. This method fills n.Value from null to an float64 pointer.
 // The mode argument is either 0 or 1, 0 means MAX and 1 means MIN.
-func (n *Node) Minimax(mode int8) {
-	if n.Value != nil {
+func (n *Node) Minimax(mode int8, depth int, alpha, beta float64) {
+	if n.Value != nil || depth <= 0 {
 		return
 	}
 
@@ -47,7 +47,7 @@ func (n *Node) Minimax(mode int8) {
 		ch := make(chan bool)
 		channels[i] = ch
 		go func(x *Node, c chan bool) {
-			x.Minimax(mode ^ 1)
+			x.Minimax(mode^1, depth-1, alpha, beta)
 			c <- true
 		}(w, ch)
 	}
@@ -66,10 +66,20 @@ func (n *Node) Minimax(mode int8) {
 
 		if mode == 0 {
 			lowest = math.Max(res, lowest)
+			alpha = math.Max(alpha, lowest)
 		} else {
 			lowest = math.Min(res, lowest)
+			beta = math.Min(beta, lowest)
+		}
+
+		if beta <= alpha {
+			break
 		}
 	}
 
 	n.Value = &lowest
+}
+
+func (n *Node) FriendlyMinimax(depth int) {
+	n.Minimax(0, depth, math.Inf(-1), math.Inf(1))
 }

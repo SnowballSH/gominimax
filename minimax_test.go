@@ -7,7 +7,7 @@ import (
 )
 
 func TestMinimax(t *testing.T) {
-	tree := CreateNode([]*Node{ // max 3
+	tree := CreateNode([]*Node{ // max 6
 		CreateNode([]*Node{ // min 3
 			CreateNode([]*Node{ // max 5
 				CreateRootNode([]float64{ // min 5
@@ -26,10 +26,42 @@ func TestMinimax(t *testing.T) {
 				}),
 			}),
 		}),
+		CreateNode([]*Node{ // min 6
+			CreateNode([]*Node{ // max 6
+				CreateRootNode([]float64{ // min 6
+					6,
+				}),
+				CreateRootNode([]float64{ // min 6
+					6,
+					9,
+				}),
+			}),
+			CreateNode([]*Node{ // max 7
+				CreateRootNode([]float64{ // min 7
+					7,
+				}),
+			}),
+		}),
+		CreateNode([]*Node{ // min 5
+			CreateNode([]*Node{ // max 5
+				CreateRootNode([]float64{ // min 5
+					5,
+				}),
+			}),
+			CreateNode([]*Node{ // max 8
+				CreateRootNode([]float64{ // min 8
+					9,
+					8,
+				}),
+				CreateRootNode([]float64{ // min 6
+					6,
+				}),
+			}),
+		}),
 	})
 
-	tree.Minimax(0)
-	assert.Equal(t, float64(3), *tree.Value)
+	tree.FriendlyMinimax(99)
+	assert.Equal(t, float64(6), *tree.Value)
 
 	tree = CreateNode([]*Node{ // max -7
 		CreateNode([]*Node{ // min -10
@@ -67,6 +99,32 @@ func TestMinimax(t *testing.T) {
 		}),
 	})
 
-	tree.Minimax(0)
+	tree.FriendlyMinimax(99)
 	assert.Equal(t, float64(-7), *tree.Value)
+
+	tree = CreateNode([]*Node{ // max 5
+		CreateNode([]*Node{ // min 5
+			CreateRootNode([]float64{ // max 5
+				3,
+				5,
+			}),
+			CreateRootNode([]float64{ // max 6
+				6,
+				9,
+			}),
+		}),
+		CreateNode([]*Node{ // min 2
+			CreateRootNode([]float64{ // max 2
+				1,
+				2,
+			}),
+			CreateRootNode([]float64{ // max 0
+				0,
+				-1,
+			}),
+		}),
+	})
+
+	tree.FriendlyMinimax(99)
+	assert.Equal(t, float64(5), *tree.Value)
 }

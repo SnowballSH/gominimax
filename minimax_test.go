@@ -127,4 +127,30 @@ func TestMinimax(t *testing.T) {
 
 	tree.FriendlyMinimax(99)
 	assert.Equal(t, float64(5), *tree.Value)
+
+	tree = CreateNode([]*Node{ // max 5
+		CreateNode([]*Node{ // min 5
+			CreateRootNode([]float64{ // max 5
+				3,
+				5,
+			}),
+			CreateRootNode([]float64{ // max 6
+				6,
+				9,
+			}),
+		}),
+		CreateNode([]*Node{ // min 2
+			CreateRootNode([]float64{ // max 2
+				1,
+				2,
+			}),
+			CreateRootNode([]float64{ // max 0
+				0,
+				-1,
+			}),
+		}),
+	})
+
+	tree.FriendlyMinimax(1)
+	assert.Equal(t, float64(0), *tree.Value)
 }

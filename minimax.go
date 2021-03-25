@@ -10,6 +10,7 @@ type Node struct {
 	Value    *float64
 	Eval     func() float64
 	Children []*Node
+	Info     interface{}
 }
 
 // CreateNode creates a parent node

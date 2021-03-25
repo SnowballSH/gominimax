@@ -8,13 +8,17 @@ import (
 // Node represents a node in the tree
 type Node struct {
 	Value    *float64
+	Eval     func() float64
 	Children []*Node
 }
 
 // CreateNode creates a parent node
 func CreateNode(nodes []*Node) *Node {
 	return &Node{
-		Value:    nil,
+		Value: nil,
+		Eval: func() float64 {
+			return 0
+		},
 		Children: nodes,
 	}
 }
@@ -25,12 +29,18 @@ func CreateRootNode(value []float64) *Node {
 	for i, y := range value {
 		w := y
 		arr[i] = &Node{
-			Value:    &w,
+			Value: &w,
+			Eval: func() float64 {
+				return w
+			},
 			Children: nil,
 		}
 	}
 	return &Node{
-		Value:    nil,
+		Value: nil,
+		Eval: func() float64 {
+			return 0
+		},
 		Children: arr,
 	}
 }
@@ -39,6 +49,8 @@ func CreateRootNode(value []float64) *Node {
 // The mode argument is either 0 or 1, 0 means MAX and 1 means MIN.
 func (n *Node) Minimax(mode int8, depth int, alpha, beta float64) {
 	if n.Value != nil || depth <= 0 {
+		x := n.Eval()
+		n.Value = &x
 		return
 	}
 

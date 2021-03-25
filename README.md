@@ -2,7 +2,7 @@
 
 Install:
 ```bash
-go get -u https://github.com/SnowballSH/gominimax
+go get -u github.com/SnowballSH/gominimax
 ```
 
 Usage:
